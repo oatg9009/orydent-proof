@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>OryDent Proof</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --teal:#1D9E75;--teal-dark:#0d7a5c;--teal-light:#E8F7F2;--teal-mid:#5DCAA5;
+  --gold:#C8A84B;--gold-light:#FBF5E6;
+  --text:#1A2E2A;--text2:#4A6860;--text3:#8AADA5;
+  --border:#D4EDE6;--white:#fff;
+}
+html,body{width:100%;min-height:100vh;background:#F0F8F5;font-family:'Helvetica Neue',Arial,sans-serif;color:var(--text)}
+
+/* FIXED TOP BAR */
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--white);border-bottom:1.5px solid var(--border);display:flex;align-items:center;height:56px;padding:0 10px;gap:6px;box-shadow:0 2px 8px rgba(29,158,117,.08)}
+.back-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:22px;cursor:pointer;flex-shrink:0;font-weight:300;display:none}
+.back-btn.show{display:flex}
+.logo-wrap{display:flex;align-items:center;gap:6px}
+.logo-text{font-size:14px;font-weight:800;color:var(--teal-dark);letter-spacing:.3px}
+.page-tag{font-size:10px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 7px;border-radius:20px;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px}
+
+/* LANGUAGE TOGGLE — prominent */
+.lang-wrap{display:flex;background:#f0f0f0;border-radius:22px;padding:2px;gap:2px;flex-shrink:0;border:1px solid var(--border)}
+.lang-btn{padding:4px 10px;border-radius:18px;font-size:11px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--text3);transition:all .2s;letter-spacing:.2px}
+.lang-btn.active{background:var(--teal);color:#fff;box-shadow:0 2px 6px rgba(29,158,117,.4)}
+
+/* SCREENS */
+.screen{display:none;padding-top:56px;padding-bottom:72px;min-height:100vh;background:#F5FBFA}
+.screen.active{display:block}
+
+/* HOME */
+.home-hero{background:linear-gradient(180deg,var(--white) 0%,#EAF7F2 100%);padding:20px 20px 16px;text-align:center}
+.verified-badge{display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:#fff;padding:7px 16px;border-radius:24px;font-size:13px;font-weight:600;margin-bottom:12px}
+.home-product-name{font-size:20px;font-weight:700;color:var(--teal-dark);margin-bottom:4px}
+.home-product-sub{font-size:13px;color:var(--text2);margin-bottom:4px;line-height:1.5}
+.home-tagline{font-size:12px;color:var(--teal);font-style:italic;margin-bottom:16px}
+.bottle-mock{width:88px;height:124px;background:linear-gradient(135deg,#e8f7f2,#b8e8d8);border-radius:44px 44px 36px 36px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid var(--teal-mid)}
+.bottle-brand{font-size:13px;font-weight:800;color:var(--teal-dark)}
+.bottle-sub{font-size:9px;color:var(--text2);text-align:center;margin-top:2px}
+
+.info-strip{background:var(--white);margin:14px 16px 0;border-radius:14px;padding:12px;display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;box-shadow:0 2px 8px rgba(29,158,117,.08)}
+.istrip-item{text-align:center;padding:4px 6px}
+.istrip-div{background:var(--border)}
+.istrip-val{font-size:14px;font-weight:700;color:var(--teal-dark)}
+.istrip-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+
+.menu-list{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.menu-item{background:var(--white);border-radius:16px;padding:15px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 1px 6px rgba(0,0,0,.06);border:1px solid var(--border)}
+.menu-item:active{background:var(--teal-light)}
+.menu-icon-wrap{width:42px;height:42px;border-radius:12px;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.menu-text-wrap{flex:1}
+.menu-title{font-size:15px;font-weight:600;color:var(--text)}
+.menu-desc{font-size:11px;color:var(--text3);margin-top:2px}
+.menu-chevron{color:var(--teal-mid);font-size:20px}
+.home-footer{padding:12px 16px 6px;text-align:center}
+.home-footer p{font-size:11px;color:var(--text3)}
+
+/* INNER PAGES */
+.page-hero{background:var(--white);padding:18px 16px 14px;border-bottom:1px solid var(--border)}
+.page-title{font-size:22px;font-weight:700;color:var(--teal-dark);margin-bottom:3px}
+.page-sub{font-size:12px;color:var(--text2)}
+.page-body{padding:14px 16px}
+
+.chart-wrap{background:var(--white);border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;border:1px solid var(--border)}
+.chart-lbl{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.4}
+.bars{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.bar-col{display:flex;align-items:center;gap:8px}
+.bar-pct{font-size:12px;font-weight:700;color:var(--teal-dark);min-width:38px;text-align:right;flex-shrink:0}
+.bar-fill{height:28px;border-radius:0 8px 8px 0;flex-shrink:0}
+.bar-x{font-size:11px;color:var(--text2);white-space:nowrap;flex-shrink:0}
+.chart-src{font-size:10px;color:var(--text3);font-style:italic}
+
+.card{background:var(--white);border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:10px;border:1px solid var(--border)}
+.card-title{font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:7px}
+.card-body{font-size:12px;color:var(--text2);line-height:1.7}
+.award-chip{display:inline-flex;align-items:center;gap:5px;background:var(--gold-light);border:1px solid var(--gold);border-radius:10px;padding:6px 12px;font-size:11px;font-weight:600;color:var(--gold);margin-bottom:7px}
+
+.step-card{background:var(--white);border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:10px;border:1px solid var(--border);display:flex;gap:14px}
+.step-num{width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-size:14px;font-weight:700;color:var(--teal-dark);margin-bottom:4px}
+.step-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.step-badge{display:inline-block;background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:600;padding:3px 9px;border-radius:8px;margin-top:6px}
+
+.ing-card{background:var(--white);border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:10px;border:1px solid var(--border);display:flex;gap:12px}
+.ing-icon{width:42px;height:42px;border-radius:12px;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ing-name{font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:2px}
+.ing-role{font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.5px;margin-bottom:4px}
+.ing-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.free-box{background:var(--teal-light);border-radius:14px;padding:12px 14px;margin-top:4px;border:1px solid var(--border)}
+.free-title{font-size:12px;font-weight:700;color:var(--teal-dark);margin-bottom:8px}
+.free-tags{display:flex;flex-wrap:wrap;gap:6px}
+.free-tag{background:var(--white);border:1px solid var(--teal-mid);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--teal-dark)}
+
+.prod-row{background:var(--white);border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.prod-k{font-size:12px;color:var(--text3);flex-shrink:0}
+.prod-v{font-size:13px;font-weight:600;color:var(--text);text-align:right}
+.caution{background:#FFF8E6;border:1px solid #E8C84A;border-radius:14px;padding:13px;margin-top:4px}
+.caution-title{font-size:12px;font-weight:700;color:#B8860B;margin-bottom:5px}
+.caution-body{font-size:11px;color:#7A6020;line-height:1.6}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 4px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.06)}
+.bnav{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:4px;border-radius:12px;transition:all .15s}
+.bnav.active{background:var(--teal-light)}
+.bnav-icon{font-size:20px}
+.bnav-lbl{font-size:9px;font-weight:600;color:var(--text3)}
+.bnav.active .bnav-lbl{color:var(--teal)}
+
+/* lang */
+.th{display:none}
+.en{display:block}
+span.th{display:none}
+span.en{display:inline}
+.lang-th .th{display:block}
+.lang-th .en{display:none}
+.lang-th span.th{display:inline}
+.lang-th span.en{display:none}
+</style>
+</head>
+<body id="app">
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="back-btn" id="backBtn" onclick="goBack()">‹</div>
+  <div class="logo-wrap">
+    <span>🌾</span>
+    <div class="logo-text">ORYDENT</div>
+  </div>
+  <div class="page-tag" id="pageTag">ORYDENT PROOF</div>
+  <!-- LANGUAGE TOGGLE — always visible -->
+  <div class="lang-wrap">
+    <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btnTH" onclick="setLang('th')">TH</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen active" id="s-home">
+  <div class="home-hero">
+    <div class="verified-badge">✓ <span class="en">Verified Product</span><span class="th">ผลิตภัณฑ์แท้</span></div>
+    <div class="home-product-name">OryDent Gentle Dental Foam</div>
+    <div class="home-product-sub"><span class="en">For Clear Aligners, Retainers, Dentures & Dental Appliances</span><span class="th">สำหรับ Clear Aligner รีเทนเนอร์ ฟันปลอม และอุปกรณ์ทันตกรรม</span></div>
+    <div class="home-tagline"><span class="en">"Care for Your Smile Everyday"</span><span class="th">"ดูแลรอยยิ้มของคุณทุกวัน"</span></div>
+    <div class="bottle-mock"><div class="bottle-brand">ORYDENT</div><div class="bottle-sub">Gentle Dental Foam<br>50 mL</div></div>
+  </div>
+  <div class="info-strip">
+    <div class="istrip-item"><div class="istrip-val">50 mL</div><div class="istrip-lbl"><span class="en">Volume</span><span class="th">ปริมาณ</span></div></div>
+    <div class="istrip-item istrip-div"></div>
+    <div class="istrip-item"><div class="istrip-val">~100</div><div class="istrip-lbl"><span class="en">Uses</span><span class="th">ครั้ง</span></div></div>
+    <div class="istrip-item istrip-div"></div>
+    <div class="istrip-item"><div class="istrip-val">Dec 2027</div><div class="istrip-lbl"><span class="en">Expires</span><span class="th">หมดอายุ</span></div></div>
+  </div>
+  <div class="menu-list">
+    <div class="menu-item" onclick="goTo('research')">
+      <div class="menu-icon-wrap">🔬</div>
+      <div class="menu-text-wrap"><div class="menu-title"><span class="en">Research Evidence</span><span class="th">หลักฐานวิจัย</span></div><div class="menu-desc"><span class="en">Science behind OryDent</span><span class="th">งานวิจัยที่รองรับ OryDent</span></div></div>
+      <div class="menu-chevron">›</div>
+    </div>
+    <div class="menu-item" onclick="goTo('howtouse')">
+      <div class="menu-icon-wrap">🦷</div>
+      <div class="menu-text-wrap"><div class="menu-title"><span class="en">How to Use</span><span class="th">วิธีใช้</span></div><div class="menu-desc"><span class="en">Step-by-step guide</span><span class="th">คู่มือทีละขั้นตอน</span></div></div>
+      <div class="menu-chevron">›</div>
+    </div>
+    <div class="menu-item" onclick="goTo('ingredients')">
+      <div class="menu-icon-wrap">🌿</div>
+      <div class="menu-text-wrap"><div class="menu-title"><span class="en">Ingredients</span><span class="th">ส่วนผสม</span></div><div class="menu-desc"><span class="en">Natural formula, nothing to hide</span><span class="th">สูตรธรรมชาติ โปร่งใส</span></div></div>
+      <div class="menu-chevron">›</div>
+    </div>
+    <div class="menu-item" onclick="goTo('productinfo')">
+      <div class="menu-icon-wrap">ℹ️</div>
+      <div class="menu-text-wrap"><div class="menu-title"><span class="en">Product Information</span><span class="th">ข้อมูลผลิตภัณฑ์</span></div><div class="menu-desc"><span class="en">Batch no., storage & safety</span><span class="th">Batch เก็บรักษา และความปลอดภัย</span></div></div>
+      <div class="menu-chevron">›</div>
+    </div>
+  </div>
+  <div class="home-footer"><p>Tri-O-Nyx · Montfort College · Thailand 2026</p></div>
+</div>
+
+<!-- RESEARCH -->
+<div class="screen" id="s-research">
+  <div class="page-hero"><div class="page-title"><span class="en">Research Evidence</span><span class="th">หลักฐานวิจัย</span></div><div class="page-sub"><span class="en">Biomedical study · IMRC NextGen 2025</span><span class="th">การศึกษาทางชีวการแพทย์ · IMRC NextGen 2025</span></div></div>
+  <div class="page-body">
+    <div class="chart-wrap">
+      <div class="chart-lbl"><span class="en">Inhibition of <em>Streptococcus mutans</em> (biofilm)</span><span class="th">การยับยั้ง <em>Streptococcus mutans</em> (biofilm)</span></div>
+      <div class="bars">
+        <div class="bar-col"><div class="bar-x"><span class="en">1 mg/mL</span><span class="th">1 mg/mL</span></div><div class="bar-fill" style="width:69%;background:#9FD9C5"></div><div class="bar-pct">69.2%</div></div>
+        <div class="bar-col"><div class="bar-x"><span class="en">10 mg/mL</span><span class="th">10 mg/mL</span></div><div class="bar-fill" style="width:94%;background:#1D9E75"></div><div class="bar-pct">94.4%</div></div>
+        <div class="bar-col"><div class="bar-x"><span class="en">20 mg/mL</span><span class="th">20 mg/mL</span></div><div class="bar-fill" style="width:95%;background:#0d7a5c"></div><div class="bar-pct">95.1%</div></div>
+      </div>
+      <div class="chart-src"><span class="en">CMU Agro-Industry Lab, 2025</span><span class="th">ห้องปฏิบัติการ มช. คณะอุตสาหกรรมเกษตร, 2568</span></div>
+    </div>
+    <div class="card"><div class="card-title">🏅 <span class="en">Award</span><span class="th">รางวัล</span></div><div class="award-chip">🥇 <span class="en">Gold Medal · Medical Science · IMRC NextGen 2025</span><span class="th">เหรียญทอง · วิทยาศาสตร์การแพทย์ · IMRC NextGen 2025</span></div><div class="card-body"><span class="en">Evaluated by Phramongkutklao College of Medicine and the Consortium of Thai Medical Schools · November 8, 2025</span><span class="th">ประเมินโดยวิทยาลัยแพทยศาสตร์พระมงกุฎเกล้า และเครือข่ายคณะแพทยศาสตร์ไทย · 8 พฤศจิกายน 2568</span></div></div>
+    <div class="card"><div class="card-title">🔬 <span class="en">Research Background</span><span class="th">ที่มาของงานวิจัย</span></div><div class="card-body"><span class="en">Northern Thai pigmented rice contains high concentrations of phenolics and flavonoids with natural antimicrobial properties, demonstrated to significantly inhibit S. mutans — the primary bacteria causing oral plaque and tooth decay.</span><span class="th">ข้าวสีจากภาคเหนือของไทยมีฟีนอลิกส์และฟลาโวนอยด์สูง ซึ่งมีฤทธิ์ต้านเชื้อแบคทีเรียตามธรรมชาติ และพิสูจน์แล้วว่าสามารถยับยั้ง S. mutans ซึ่งเป็นสาเหตุหลักของคราบพลัคและฟันผุได้อย่างมีนัยสำคัญ</span></div></div>
+    <div class="card"><div class="card-title">📊 <span class="en">Key Finding</span><span class="th">ผลการวิจัยสำคัญ</span></div><div class="card-body"><span class="en">At 10 mg/mL — the concentration used in OryDent — 94.4% biofilm inhibition was achieved. This supports safe, effective daily use as a natural alternative to chemical cleaning tablets.</span><span class="th">ที่ความเข้มข้น 10 mg/mL ซึ่งเป็นปริมาณที่ใช้ใน OryDent สามารถยับยั้ง biofilm ได้ 94.4% ซึ่งรองรับการใช้งานรายวันที่ปลอดภัยและมีประสิทธิภาพ เป็นทางเลือกธรรมชาติแทนน้ำยาทำความสะอาดสารเคมี</span></div></div>
+  </div>
+</div>
+
+<!-- HOW TO USE -->
+<div class="screen" id="s-howtouse">
+  <div class="page-hero"><div class="page-title"><span class="en">How to Use</span><span class="th">วิธีใช้</span></div><div class="page-sub"><span class="en">4 simple steps · Under 2 minutes</span><span class="th">4 ขั้นตอนง่ายๆ ใช้เวลาไม่ถึง 2 นาที</span></div></div>
+  <div class="page-body">
+    <div class="step-card"><div class="step-num">1</div><div><div class="step-title"><span class="en">5 PUMPS</span><span class="th">ปั๊ม 5 ครั้ง</span></div><div class="step-desc"><span class="en">Dispense foam directly onto your retainer, aligner, or denture — about the size of a small coin.</span><span class="th">ปั๊มโฟมลงบนรีเทนเนอร์ clear aligner หรือฟันปลอมโดยตรง ประมาณขนาดเหรียญเล็ก</span></div></div></div>
+    <div class="step-card"><div class="step-num">2</div><div><div class="step-title"><span class="en">GENTLY RUB</span><span class="th">นวดเบาๆ</span></div><div class="step-desc"><span class="en">Clean your appliance gently with your fingers or soft brush, covering all surfaces.</span><span class="th">ทำความสะอาดด้วยนิ้วหรือแปรงนุ่ม ให้ครอบคลุมทุกพื้นผิว</span></div></div></div>
+    <div class="step-card"><div class="step-num">3</div><div><div class="step-title"><span class="en">WAIT 1–3 MIN</span><span class="th">รอ 1–3 นาที</span></div><div class="step-desc"><span class="en">Leave the foam to allow the bioactive compounds to work effectively.</span><span class="th">ทิ้งโฟมไว้เพื่อให้สารออกฤทธิ์ทางชีวภาพทำงานได้เต็มประสิทธิภาพ</span></div><div class="step-badge">⏱ 1–3 min</div></div></div>
+    <div class="step-card"><div class="step-num">4</div><div><div class="step-title"><span class="en">RINSE CLEAN</span><span class="th">ล้างด้วยน้ำสะอาด</span></div><div class="step-desc"><span class="en">Rinse thoroughly under clean running water. Ready to wear!</span><span class="th">ล้างให้สะอาดด้วยน้ำไหล พร้อมใส่ได้เลย!</span></div></div></div>
+    <div class="card"><div class="card-title">💡 <span class="en">Tips</span><span class="th">เคล็ดลับ</span></div><div class="card-body"><span class="en">• Best after meals or before sleeping<br>• Safe for daily use — no soaking needed<br>• No rinsing of mouth required<br>• Keep at room temperature away from sunlight</span><span class="th">• ใช้หลังมื้ออาหารหรือก่อนนอนดีที่สุด<br>• ปลอดภัยสำหรับใช้ทุกวัน ไม่ต้องแช่น้ำยา<br>• ไม่ต้องบ้วนปาก<br>• เก็บที่อุณหภูมิห้อง ห่างจากแสงแดดโดยตรง</span></div></div>
+  </div>
+</div>
+
+<!-- INGREDIENTS -->
+<div class="screen" id="s-ingredients">
+  <div class="page-hero"><div class="page-title"><span class="en">Ingredients</span><span class="th">ส่วนผสม</span></div><div class="page-sub"><span class="en">Natural formula · Nothing to hide</span><span class="th">สูตรธรรมชาติ · โปร่งใสทุกส่วนผสม</span></div></div>
+  <div class="page-body">
+    <div class="ing-card"><div class="ing-icon">🌾</div><div><div class="ing-name"><span class="en">Northern Thai Pigmented Rice Extract</span><span class="th">สารสกัดข้าวสีไทยภาคเหนือ</span></div><div class="ing-role"><span class="en">KEY ACTIVE</span><span class="th">สารออกฤทธิ์หลัก</span></div><div class="ing-desc"><span class="en">Rich in phenolics & flavonoids. Inhibits S. mutans. Sourced from highland communities.</span><span class="th">อุดมด้วยฟีนอลิกส์และฟลาโวนอยด์ ยับยั้ง S. mutans จัดหาจากชุมชนบนพื้นที่สูง</span></div></div></div>
+    <div class="ing-card"><div class="ing-icon">🫧</div><div><div class="ing-name"><span class="en">Plant-Based Surfactants</span><span class="th">สารลดแรงตึงผิวจากพืช</span></div><div class="ing-role"><span class="en">FOAMING AGENT</span><span class="th">สารทำโฟม</span></div><div class="ing-desc"><span class="en">Mild, gentle cleansing from plants. Safe for daily contact with oral tissue.</span><span class="th">สารทำความสะอาดอ่อนโยนจากพืช ปลอดภัยสำหรับสัมผัสเนื้อเยื่อในช่องปากทุกวัน</span></div></div></div>
+    <div class="ing-card"><div class="ing-icon">🍃</div><div><div class="ing-name"><span class="en">Natural Extracts</span><span class="th">สารสกัดธรรมชาติ</span></div><div class="ing-role"><span class="en">FRESHNESS</span><span class="th">ความสดชื่น</span></div><div class="ing-desc"><span class="en">Botanical extracts supporting freshness without harsh chemicals.</span><span class="th">สารสกัดพฤกษศาสตร์ให้ความสดชื่น โดยไม่ใช้สารเคมีรุนแรง</span></div></div></div>
+    <div class="ing-card"><div class="ing-icon">💧</div><div><div class="ing-name"><span class="en">Non-Abrasive Formula Base</span><span class="th">ฐานสูตรที่ไม่ขัดผิว</span></div><div class="ing-role"><span class="en">PROTECTIVE BASE</span><span class="th">ฐานป้องกัน</span></div><div class="ing-desc"><span class="en">Cleans without scratching appliance surfaces. Safe for long-term use.</span><span class="th">ทำความสะอาดโดยไม่ขูดพื้นผิวอุปกรณ์ ปลอดภัยสำหรับการใช้งานระยะยาว</span></div></div></div>
+    <div class="free-box"><div class="free-title">✅ <span class="en">Free From</span><span class="th">ปราศจาก</span></div><div class="free-tags"><span class="free-tag"><span class="en">Alcohol-Free</span><span class="th">ไม่มีแอลกอฮอล์</span></span><span class="free-tag"><span class="en">SLS-Free</span><span class="th">ไม่มี SLS</span></span><span class="free-tag"><span class="en">Sugar-Free</span><span class="th">ไม่มีน้ำตาล</span></span><span class="free-tag"><span class="en">Non-Abrasive</span><span class="th">ไม่ขัดผิว</span></span><span class="free-tag"><span class="en">Paraben-Free</span><span class="th">ไม่มีพาราเบน</span></span></div></div>
+  </div>
+</div>
+
+<!-- PRODUCT INFO -->
+<div class="screen" id="s-productinfo">
+  <div class="page-hero"><div class="page-title"><span class="en">Product Information</span><span class="th">ข้อมูลผลิตภัณฑ์</span></div><div class="page-sub"><span class="en">Batch details & storage</span><span class="th">รายละเอียด Batch และการเก็บรักษา</span></div></div>
+  <div class="page-body">
+    <div class="prod-row"><div class="prod-k"><span class="en">Product</span><span class="th">ชื่อสินค้า</span></div><div class="prod-v">OryDent Gentle Dental Foam</div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">Volume</span><span class="th">ปริมาณ</span></div><div class="prod-v">50 mL (~100 uses)</div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">Batch No.</span><span class="th">เลข Batch</span></div><div class="prod-v">OD20240715A</div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">Manufactured</span><span class="th">ผลิต</span></div><div class="prod-v"><span class="en">Dec 2025</span><span class="th">ธ.ค. 2568</span></div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">Expiry</span><span class="th">หมดอายุ</span></div><div class="prod-v"><span class="en">Dec 2027</span><span class="th">ธ.ค. 2570</span></div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">Suitable For</span><span class="th">เหมาะสำหรับ</span></div><div class="prod-v"><span class="en">Aligners, Retainers, Dentures</span><span class="th">Clear aligner รีเทนเนอร์ ฟันปลอม</span></div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">Storage</span><span class="th">การเก็บ</span></div><div class="prod-v"><span class="en">Room temp, no direct sunlight</span><span class="th">อุณหภูมิห้อง ห่างแสงแดด</span></div></div>
+    <div class="prod-row"><div class="prod-k"><span class="en">By</span><span class="th">พัฒนาโดย</span></div><div class="prod-v">Tri-O-Nyx · Montfort College</div></div>
+    <div class="caution"><div class="caution-title">⚠️ <span class="en">Caution</span><span class="th">ข้อควรระวัง</span></div><div class="caution-body"><span class="en">For external use on dental appliances only. Do not swallow. Keep away from children under 6. Stop use if irritation occurs.</span><span class="th">ใช้ภายนอกกับอุปกรณ์ทันตกรรมเท่านั้น ห้ามกลืน เก็บให้พ้นมือเด็กอายุต่ำกว่า 6 ปี หากระคายเคืองให้หยุดใช้</span></div></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="bnav active" id="bnav-home" onclick="goTo('home')"><div class="bnav-icon">🏠</div><div class="bnav-lbl"><span class="en">Home</span><span class="th">หน้าหลัก</span></div></div>
+  <div class="bnav" id="bnav-research" onclick="goTo('research')"><div class="bnav-icon">🔬</div><div class="bnav-lbl"><span class="en">Research</span><span class="th">วิจัย</span></div></div>
+  <div class="bnav" id="bnav-howtouse" onclick="goTo('howtouse')"><div class="bnav-icon">🦷</div><div class="bnav-lbl"><span class="en">How to Use</span><span class="th">วิธีใช้</span></div></div>
+  <div class="bnav" id="bnav-ingredients" onclick="goTo('ingredients')"><div class="bnav-icon">🌿</div><div class="bnav-lbl"><span class="en">Ingredients</span><span class="th">ส่วนผสม</span></div></div>
+  <div class="bnav" id="bnav-productinfo" onclick="goTo('productinfo')"><div class="bnav-icon">ℹ️</div><div class="bnav-lbl"><span class="en">Product</span><span class="th">สินค้า</span></div></div>
+</div>
+
+<script>
+var hist=[];var curLang='en';var curPage='home';
+var T={en:{home:'ORYDENT PROOF',research:'Research Evidence',howtouse:'How to Use',ingredients:'Ingredients',productinfo:'Product Info'},th:{home:'ORYDENT PROOF',research:'หลักฐานวิจัย',howtouse:'วิธีใช้',ingredients:'ส่วนผสม',productinfo:'ข้อมูลสินค้า'}};
+
+function setLang(l){
+  curLang=l;
+  document.body.classList.toggle('lang-th',l==='th');
+  document.getElementById('btnEN').classList.toggle('active',l==='en');
+  document.getElementById('btnTH').classList.toggle('active',l==='th');
+  document.getElementById('pageTag').textContent=T[l][curPage]||'ORYDENT PROOF';
+}
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));
+  var bn=document.getElementById('bnav-'+id);if(bn)bn.classList.add('active');
+  curPage=id;
+  document.getElementById('pageTag').textContent=T[curLang][id]||'ORYDENT PROOF';
+  var bb=document.getElementById('backBtn');
+  bb.classList.toggle('show',id!=='home');
+  if(id!=='home')hist.push(id);
+  window.scrollTo(0,0);
+}
+function goBack(){
+  hist.pop();var prev=hist.length?hist[hist.length-1]:'home';
+  goTo(prev);if(hist.length)hist.pop();
+}
+</script>
+</body>
+</html>
